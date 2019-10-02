@@ -5,7 +5,7 @@ import sys
 from urllib.parse import urlencode
 
 from brightpearl.connection import Connection, OauthConnection
-from brightpearl.resources import Products
+from brightpearl.resources import Products, Brands, ProductType, Category, Options
 
 
 log = logging.getLogger("brightpearl.api")

@@ -21,7 +21,7 @@ class Products(object):
     def create(self, product_info):
         product_create = "product"
         return self.connection.make_request(
-            "{}/{}".format(self.resource_parent, product_create), "PUT", data=product_info
+            "{}/{}".format(self.resource_parent, product_create), "POST", data=product_info
         )
 
     def update(self, product_info):

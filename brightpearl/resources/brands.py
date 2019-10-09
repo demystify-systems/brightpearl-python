@@ -1,3 +1,4 @@
+from brightpearl.utils import url_encode_params
 
 
 class Brands(object):
@@ -6,10 +7,14 @@ class Brands(object):
         self.resource_parent = 'product-service'
         self.connection = connection
 
-    def all(self):
+    def all(self, search_params=None):
         brand_list = "brand-search"
-        return self.connection.make_request("/{}/{}".format(
-            self.resource_parent, brand_list), "GET", {}
+
+        if not search_params:
+            search_params = dict()
+
+        return self.connection.make_request("/{}/{}?{}".format(
+            self.resource_parent, brand_list, url_encode_params(search_params)), "GET", {}
         )
 
     def get(self, brand_id):

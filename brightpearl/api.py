@@ -1,11 +1,12 @@
 import logging
-import uuid
 import sys
 
 from urllib.parse import urlencode
 
 from brightpearl.connection import Connection, OauthConnection
-from brightpearl.resources import Products, Brands, ProductType, Category, Options
+from brightpearl.resources import (
+    Products, Brands, ProductType, Category, Options, Collection, Season, OptionValue, CustomField
+)
 
 
 log = logging.getLogger("brightpearl.api")

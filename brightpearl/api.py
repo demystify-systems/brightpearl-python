@@ -54,6 +54,17 @@ class BrightPearlAPI(object):
             "https://oauth.brightpearl.com/token/{}".format(self.account), "POST", request_body
         )
 
+    def refresh_token(self, refresh_token):
+        request_body = dict({
+            "grant_type": 'refresh_token',
+            "refresh_token": refresh_token,
+            "client_id": self.client_id,
+            "client_secret": self.client_secret
+        })
+        return self.connection.make_request(
+            "https://oauth.brightpearl.com/token/{}".format(self.account), "POST", request_body
+        )
+
     def __getattr__(self, item):
         return ResourceWrapper(item, self.connection)
 

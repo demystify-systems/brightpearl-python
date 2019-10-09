@@ -11,7 +11,7 @@ class OauthConnection(object):
         self.client_secret = client_secret
         self._session.headers = {
             "Accept": "application/json",
-            "Content - Type": "application / x - www - form - urlencoded"
+            "Content - Type": "application/x-www-form-urlencoded"
         }
 
     def make_request(self, url, method, data):

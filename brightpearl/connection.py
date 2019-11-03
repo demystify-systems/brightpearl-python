@@ -16,7 +16,9 @@ class OauthConnection(object):
             "Content - Type": "application/x-www-form-urlencoded"
         }
 
-    def make_request(self, url, method, data):
+    def make_request(self, url, method, data=None):
+        if not data:
+            data = dict()
         response = self._session.request(method, url, data=data)
         return self.process_response(response)
 
@@ -25,12 +27,8 @@ class OauthConnection(object):
         result = dict()
         if response.status_code in [200, 201, 202]:
             result = response.json()
-        elif response.status_code >= 500:
-            pass
-        elif response.status_code >= 400:
-            pass
-        elif response.status_code >= 300:
-            pass
+        else:
+            raise ValueError("Error while making api request: {}".format(response.text))
         return result
 
 
@@ -52,19 +50,24 @@ class Connection(object):
             **{"region": self.region, "account_id": self.account_id, "resource": endpoint}
         )
 
-    def make_request(self, url, method, data):
+    def make_request(self, url, method, data=None, raw_response=False):
+        if not data:
+            data = dict()
         response = self._session.request(
             method=method, url=self.get_full_path(url), data=json.dumps(data)
         )
-        return self.process_response(response)
+        return self.process_response(response, raw_response)
 
     @staticmethod
-    def process_response(response):
+    def process_response(response, raw_response):
         result = dict()
         if response.status_code in [200, 201, 202]:
-            result = response.json()
+            if not raw_response:
+                result = response.json()
+            else:
+                return response.raw
         elif response.status_code == 401:
             raise TokenExpiredException("Token expired")
         else:
-            raise ValueError("Error while fetching product: {}".format(response.text))
+            raise ValueError("Error while fetching : {}".format(response.text))
         return result

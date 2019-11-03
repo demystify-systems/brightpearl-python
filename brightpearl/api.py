@@ -21,6 +21,11 @@ class BrightPearlAPI(object):
         self.client_id = client_id
         self.client_secret = client_secret
         self.account = account_id
+        self.access_token = access_token
+        self.region = region
+        self.developer_ref = developer_ref
+        self.app_ref = app_ref
+        self.oauth = oauth
         if oauth:
             self.connection = OauthConnection(self.client_id, self.client_secret)
         else:
@@ -56,16 +61,22 @@ class BrightPearlAPI(object):
             "https://oauth.brightpearl.com/token/{}".format(self.account), "POST", request_body
         )
 
-    def refresh_token(self, refresh_token):
+    def refresh_token(self):
+        if not self.oauth:
+            raise ValueError("Refresh token can't be triggered as connection initialized for oauth connection")
         request_body = dict({
             "grant_type": 'refresh_token',
-            "refresh_token": refresh_token,
+            "refresh_token": self.access_token,
             "client_id": self.client_id,
             "client_secret": self.client_secret
         })
-        return self.connection.make_request(
+        data = self.connection.make_request(
             "https://oauth.brightpearl.com/token/{}".format(self.account), "POST", request_body
         )
+        if "access_token" not in data:
+            raise ValueError("Expected 'access_token' in the response of refresh_token")
+        self.access_token = data["access_token"]
+        self.connection = Connection(self.region, self.account_id, self.access_token, self.developer_ref, self.app_ref)
 
     def __getattr__(self, item):
         return ResourceWrapper(item, self.connection)

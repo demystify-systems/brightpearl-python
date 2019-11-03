@@ -6,10 +6,10 @@ class Options(object):
         self.resource_parent = 'product-service'
         self.connection = connection
 
-    def all(self):
+    def all(self, raw_response=False):
         option_list = "option-search"
         return self.connection.make_request("/{}/{}".format(
-            self.resource_parent, option_list), "GET", {}
+            self.resource_parent, option_list), "GET", {}, raw_response
         )
 
     def get(self, option_id):

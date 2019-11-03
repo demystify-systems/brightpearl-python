@@ -2,6 +2,8 @@ import requests
 import logging
 import json
 
+from brightpearl.exceptions import TokenExpiredException
+
 
 class OauthConnection(object):
     def __init__(self, client_id, client_secret):
@@ -61,6 +63,8 @@ class Connection(object):
         result = dict()
         if response.status_code in [200, 201, 202]:
             result = response.json()
+        elif response.status_code == 401:
+            raise TokenExpiredException("Token expired")
         else:
             raise ValueError("Error while fetching product: {}".format(response.text))
         return result

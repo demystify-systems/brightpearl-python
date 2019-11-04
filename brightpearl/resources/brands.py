@@ -7,14 +7,14 @@ class Brands(object):
         self.resource_parent = 'product-service'
         self.connection = connection
 
-    def all(self, search_params=None, raw_response=False):
+    def all(self, search_params=None, stream=False):
         brand_list = "brand-search"
 
         if not search_params:
             search_params = dict()
 
         return self.connection.make_request("/{}/{}?{}".format(
-            self.resource_parent, brand_list, url_encode_params(search_params)), "GET", {}, raw_response
+            self.resource_parent, brand_list, url_encode_params(search_params)), "GET", {}, stream
         )
 
     def get(self, brand_id):

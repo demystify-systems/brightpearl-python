@@ -6,10 +6,10 @@ class Season(object):
         self.resource_parent = 'product-service'
         self.connection = connection
 
-    def all(self, raw_response=False):
+    def all(self, stream=False):
         season_get = "season"
         return self.connection.make_request(
-            "{}/{}/{}".format(self.resource_parent, season_get, ""), "GET", {}, raw_response
+            "{}/{}/{}".format(self.resource_parent, season_get, ""), "GET", {}, stream
         )
 
     def get(self, season_id):

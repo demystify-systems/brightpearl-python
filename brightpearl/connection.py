@@ -50,22 +50,22 @@ class Connection(object):
             **{"region": self.region, "account_id": self.account_id, "resource": endpoint}
         )
 
-    def make_request(self, url, method, data=None, raw_response=False):
+    def make_request(self, url, method, data=None, stream=False):
         if not data:
             data = dict()
         response = self._session.request(
-            method=method, url=self.get_full_path(url), data=json.dumps(data)
+            method=method, url=self.get_full_path(url), data=json.dumps(data), stream=stream
         )
-        return self.process_response(response, raw_response)
+        return self.process_response(response, stream)
 
     @staticmethod
-    def process_response(response, raw_response):
+    def process_response(response, stream):
         result = dict()
         if response.status_code in [200, 201, 202]:
-            if not raw_response:
+            if not stream:
                 result = response.json()
             else:
-                return response.raw
+                return response
         elif response.status_code == 401:
             raise TokenExpiredException("Token expired")
         else:

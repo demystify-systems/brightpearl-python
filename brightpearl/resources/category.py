@@ -7,14 +7,14 @@ class Category(object):
         self.resource_parent = 'product-service'
         self.connection = connection
 
-    def all(self, search_params=None, raw_response=False):
+    def all(self, search_params=None, stream=False):
         category_list = "brightpearl-category-search"
 
         if not search_params:
             search_params = dict()
 
         return self.connection.make_request("/{}/{}?{}".format(
-            self.resource_parent, category_list, url_encode_params(search_params)), "GET", {}, raw_response
+            self.resource_parent, category_list, url_encode_params(search_params)), "GET", {}, stream
         )
 
     def get(self, category_id):

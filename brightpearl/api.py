@@ -62,7 +62,7 @@ class BrightPearlAPI(object):
         )
 
     def refresh_token(self):
-        if not self.oauth:
+        if self.oauth:
             raise ValueError("Refresh token can't be triggered as connection initialized for oauth connection")
         request_body = dict({
             "grant_type": 'refresh_token',

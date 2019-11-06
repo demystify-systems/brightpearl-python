@@ -15,21 +15,21 @@ log = logging.getLogger("brightpearl.api")
 
 class BrightPearlAPI(object):
     def __init__(
-            self, client_id=None, client_secret=None, oauth=False, account_id=None, region=None, access_token=None,
+            self, client_id=None, client_secret=None, oauth=False, account_id=None, domain=None, access_token=None,
             developer_ref=None, app_ref=None
     ):
         self.client_id = client_id
         self.client_secret = client_secret
         self.account = account_id
         self.access_token = access_token
-        self.region = region
+        self.domain = domain
         self.developer_ref = developer_ref
         self.app_ref = app_ref
         self.oauth = oauth
         if oauth:
             self.connection = OauthConnection(self.client_id, self.client_secret)
         else:
-            self.connection = Connection(region, account_id, access_token, developer_ref, app_ref)
+            self.connection = Connection(domain, account_id, access_token, developer_ref, app_ref)
 
     def authorization_url(self, authorization_redirect_url):
         """
@@ -76,7 +76,7 @@ class BrightPearlAPI(object):
         if "access_token" not in data:
             raise ValueError("Expected 'access_token' in the response of refresh_token")
         self.access_token = data["access_token"]
-        self.connection = Connection(self.region, self.account_id, self.access_token, self.developer_ref, self.app_ref)
+        self.connection = Connection(self.domain, self.account_id, self.access_token, self.developer_ref, self.app_ref)
 
     def __getattr__(self, item):
         return ResourceWrapper(item, self.connection)

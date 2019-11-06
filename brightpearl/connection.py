@@ -7,7 +7,7 @@ from brightpearl.exceptions import TokenExpiredException
 
 class OauthConnection(object):
     def __init__(self, client_id, client_secret):
-        self.resource_base_path = "https://{region}.brightpearl.com/public-api/{account_id}/{resource}"
+        self.resource_base_path = "https://{domain}/public-api/{account_id}/{resource}"
         self._session = requests.Session()
         self.client_id = client_id
         self.client_secret = client_secret
@@ -33,9 +33,9 @@ class OauthConnection(object):
 
 
 class Connection(object):
-    def __init__(self, region, account_id, access_token, developer_ref, app_ref):
-        self.resource_base_path = "https://{region}.brightpearl.com/public-api/{account_id}/{resource}"
-        self.region = region
+    def __init__(self, domain, account_id, access_token, developer_ref, app_ref):
+        self.resource_base_path = "https://{domain}/public-api/{account_id}/{resource}"
+        self.domain = domain
         self.account_id = account_id
         self._session = requests.Session()
         self._session.headers = {
@@ -47,7 +47,7 @@ class Connection(object):
 
     def get_full_path(self, endpoint):
         return self.resource_base_path.format(
-            **{"region": self.region, "account_id": self.account_id, "resource": endpoint}
+            **{"domain": self.domain, "account_id": self.account_id, "resource": endpoint}
         )
 
     def make_request(self, url, method, data=None, stream=False):

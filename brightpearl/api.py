@@ -16,7 +16,7 @@ log = logging.getLogger("brightpearl.api")
 class BrightPearlAPI(object):
     def __init__(
             self, client_id=None, client_secret=None, oauth=False, account_id=None, domain=None, access_token=None,
-            developer_ref=None, app_ref=None
+            developer_ref=None, app_ref=None, protocol = "https"
     ):
         self.client_id = client_id
         self.client_secret = client_secret
@@ -27,9 +27,9 @@ class BrightPearlAPI(object):
         self.app_ref = app_ref
         self.oauth = oauth
         if oauth:
-            self.connection = OauthConnection(self.client_id, self.client_secret)
+            self.connection = OauthConnection(self.client_id, self.client_secret, protocol=protocol)
         else:
-            self.connection = Connection(domain, account_id, access_token, developer_ref, app_ref)
+            self.connection = Connection(domain, account_id, access_token, developer_ref, app_ref, protocol=protocol)
 
     def authorization_url(self, authorization_redirect_url):
         """

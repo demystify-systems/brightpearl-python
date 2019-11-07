@@ -6,8 +6,8 @@ from brightpearl.exceptions import TokenExpiredException
 
 
 class OauthConnection(object):
-    def __init__(self, client_id, client_secret):
-        self.resource_base_path = "https://{domain}/public-api/{account_id}/{resource}"
+    def __init__(self, client_id, client_secret, protocol="https"):
+        self.resource_base_path = protocol + "://{domain}/public-api/{account_id}/{resource}"
         self._session = requests.Session()
         self.client_id = client_id
         self.client_secret = client_secret
@@ -33,8 +33,8 @@ class OauthConnection(object):
 
 
 class Connection(object):
-    def __init__(self, domain, account_id, access_token, developer_ref, app_ref):
-        self.resource_base_path = "https://{domain}/public-api/{account_id}/{resource}"
+    def __init__(self, domain, account_id, access_token, developer_ref, app_ref, protocol="https"):
+        self.resource_base_path = protocol + "://{domain}/public-api/{account_id}/{resource}"
         self.domain = domain
         self.account_id = account_id
         self._session = requests.Session()

@@ -1,7 +1,7 @@
 from brightpearl.api import BrightPearlAPI
 
 api = BrightPearlAPI(
-    'client_id', "client_secret", False, "account", "region",
+    'client_id', "client_secret", False, "account", "domain",
     "access_token", "appref", "devref"
 )
 

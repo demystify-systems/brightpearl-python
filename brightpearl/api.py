@@ -1,7 +1,8 @@
 import logging
 import sys
-
+import json
 from urllib.parse import urlencode
+import requests
 
 
 from brightpearl.connection import Connection, OauthConnection
@@ -70,9 +71,11 @@ class BrightPearlAPI(object):
             "client_id": self.client_id,
             "client_secret": self.client_secret
         })
-        data = self.connection.make_request(
-            "https://oauth.brightpearl.com/token/{}".format(self.account), "POST", request_body
-        )
+
+        response = requests.request(
+            method="POST", url="https://oauth.brightpearl.com/token/{}".format(self.account),
+            data=json.dumps(request_body))
+        data = response.json()
         if "access_token" not in data:
             raise ValueError("Expected 'access_token' in the response of refresh_token")
         self.access_token = data["access_token"]

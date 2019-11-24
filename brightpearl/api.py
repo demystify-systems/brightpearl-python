@@ -16,7 +16,7 @@ log = logging.getLogger("brightpearl.api")
 class BrightPearlAPI(object):
     def __init__(
             self, client_id=None, client_secret=None, oauth=False, account_id=None, domain=None, access_token=None,
-            developer_ref=None, app_ref=None, protocol = "https"
+            developer_ref=None, app_ref=None, protocol= "https"
     ):
         self.client_id = client_id
         self.client_secret = client_secret

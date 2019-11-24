@@ -1,8 +1,7 @@
 import requests
-import logging
 import json
 
-from brightpearl.exceptions import TokenExpiredException
+from brightpearl.exceptions import TokenExpiredException, RateLimitException
 
 
 class OauthConnection(object):
@@ -68,6 +67,8 @@ class Connection(object):
                 return response
         elif response.status_code == 401:
             raise TokenExpiredException("Token expired")
+        elif response.status_code == 429:
+            raise RateLimitException("Rate limit :{}".format(response.text))
         else:
             raise ValueError("Error while fetching : {}".format(response.text))
         return result

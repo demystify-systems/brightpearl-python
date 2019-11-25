@@ -80,7 +80,7 @@ class BrightPearlAPI(object):
         if "access_token" not in data:
             raise ValueError("Expected 'access_token' in the response of refresh_token")
         self.access_token = data["access_token"]
-        self.connection = Connection(self.domain, self.account_id, self.access_token, self.developer_ref, self.app_ref)
+        self.connection = Connection(self.domain, self.account, self.access_token, self.developer_ref, self.app_ref)
         return data
 
     def __getattr__(self, item):

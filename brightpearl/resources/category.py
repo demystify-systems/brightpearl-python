@@ -8,6 +8,12 @@ class Category(object):
         self.connection = connection
 
     def all(self, search_params=None, stream=False):
+        """
+            Method to get all the category from the brightpearl.
+         :param search_params: (dict) - search filter that is supposed to applied.
+        :param stream: (boolean) - True if results are supposed to be streamed.
+        :return:
+        """
         category_list = "brightpearl-category-search"
 
         if not search_params:
@@ -18,6 +24,11 @@ class Category(object):
         )
 
     def get(self, category_id):
+        """
+            Method to get the category information for the category_id.
+        :param category_id: (string)
+        :return:
+        """
         category_get = "brightpearl-category"
         return self.connection.make_request(
             "{}/{}/{}".format(self.resource_parent, category_get, category_id), "GET", {}

@@ -67,7 +67,7 @@ class Connection(object):
         )
         return self.process_response(response, stream)
 
-    def rate_limit_management(self, headers):
+    def rate_limiting(self, headers):
         """
             Method to manage rate limiting
         :param headers: (dict) - Response headers.
@@ -76,7 +76,8 @@ class Connection(object):
         if 'brightpearl-requests-remaining' in headers:
             # check if the min_requests_remaining are lesser than requests_remaining
             if self.rate_limit_management['min_requests_remaining'] <= self.rate_limit_management['requests_remaining']:
-                sleep(headers['brightpearl-next-throttle-period'] / 1000)
+                if self.rate_limit_management['wait']:
+                    sleep(headers['brightpearl-next-throttle-period'] / 1000)
                 if self.rate_limit_management.get('callback_function'):
                     callback = self.rate_limit_management['callback_function']
                     args_dict = self.rate_limit_management.get('callback_args')
@@ -85,8 +86,7 @@ class Connection(object):
                     else:
                         callback()
 
-    @staticmethod
-    def process_response(response, stream):
+    def process_response(self, response, stream):
         """
             Method to process the responses from the brightpearl.
         :param response: (object)
@@ -95,6 +95,7 @@ class Connection(object):
         """
         result = dict()
         if response.status_code in [200, 201, 202]:
+            self.rate_limiting(response.headers)
             if not stream:
                 result = response.json()
             else:

@@ -1,9 +1,9 @@
-from brightpearl.resources.products import Products
-from brightpearl.resources.brands import Brands
-from brightpearl.resources.category import Category
-from brightpearl.resources.product_type import ProductType
-from brightpearl.resources.options import Options
-from brightpearl.resources.custom_field import CustomField
-from brightpearl.resources.option_value import OptionValue
-from brightpearl.resources.season import Season
-from brightpearl.resources.collection import Collection
+from brightpearl.resources.products import Products  # noqa F401
+from brightpearl.resources.brands import Brands  # noqa F401
+from brightpearl.resources.category import Category  # noqa F401
+from brightpearl.resources.product_type import ProductType # noqa F401
+from brightpearl.resources.options import Options  # noqa F401
+from brightpearl.resources.custom_field import CustomField  # noqa F401
+from brightpearl.resources.option_value import OptionValue  # noqa F401
+from brightpearl.resources.season import Season # noqa F401
+from brightpearl.resources.collection import Collection # noqa F401

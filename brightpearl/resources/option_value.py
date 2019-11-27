@@ -7,12 +7,22 @@ class OptionValue(object):
         self.connection = connection
 
     def all(self, stream=False):
+        """
+            Method to get option_values from the brightpearl.
+        :param stream: (boolean) - True if the data are to be streamed.
+        :return:
+        """
         option_value_list = "option-value-search"
         return self.connection.make_request("/{}/{}".format(
             self.resource_parent, option_value_list), "GET", {}, stream
         )
 
     def get(self, option_id):
+        """
+            Method to get the option_value information for the <option_id>
+        :param option_id:
+        :return:
+        """
         option_value_get = "option"
         return self.connection.make_request(
             "{}/{}/{}/value".format(self.resource_parent, option_value_get, option_id), "GET", {}

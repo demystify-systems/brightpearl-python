@@ -1,6 +1,8 @@
 import requests
 import json
 
+from time import sleep
+
 from brightpearl.exceptions import TokenExpiredException, RateLimitException
 
 
@@ -32,11 +34,14 @@ class OauthConnection(object):
 
 
 class Connection(object):
-    def __init__(self, domain, account_id, access_token, developer_ref, app_ref, protocol="https"):
+    def __init__(
+            self, domain, account_id, access_token, developer_ref, app_ref, protocol="https", rate_limit_management=None
+    ):
         self.resource_base_path = protocol + "://{domain}/public-api/{account_id}/{resource}"
         self.domain = domain
         self.account_id = account_id
         self._session = requests.Session()
+        self.rate_limit_management = rate_limit_management
         self._session.headers = {
             "Accept": "application/json",
             "Authorization": "Bearer {}".format(access_token),
@@ -45,6 +50,11 @@ class Connection(object):
         }
 
     def get_full_path(self, endpoint):
+        """
+            Method to prepare the full URL for which connection object has to send the request
+        :param endpoint: (string) -
+        :return:
+        """
         return self.resource_base_path.format(
             **{"domain": self.domain, "account_id": self.account_id, "resource": endpoint}
         )
@@ -57,8 +67,32 @@ class Connection(object):
         )
         return self.process_response(response, stream)
 
+    def rate_limit_management(self, headers):
+        """
+            Method to manage rate limiting
+        :param headers: (dict) - Response headers.
+        :return:
+        """
+        if 'brightpearl-requests-remaining' in headers:
+            # check if the min_requests_remaining are lesser than requests_remaining
+            if self.rate_limit_management['min_requests_remaining'] <= self.rate_limit_management['requests_remaining']:
+                sleep(headers['brightpearl-next-throttle-period'] / 1000)
+                if self.rate_limit_management.get('callback_function'):
+                    callback = self.rate_limit_management['callback_function']
+                    args_dict = self.rate_limit_management.get('callback_args')
+                    if args_dict:
+                        callback(args_dict)
+                    else:
+                        callback()
+
     @staticmethod
     def process_response(response, stream):
+        """
+            Method to process the responses from the brightpearl.
+        :param response: (object)
+        :param stream: (boolean)
+        :return:
+        """
         result = dict()
         if response.status_code in [200, 201, 202]:
             if not stream:

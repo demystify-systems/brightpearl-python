@@ -8,6 +8,12 @@ class Brands(object):
         self.connection = connection
 
     def all(self, search_params=None, stream=False):
+        """
+            Method to get all the Brands from the brightpearl.
+        :param search_params: (dict) - search filter that is supposed to applied.
+        :param stream: (boolean) - True if results are supposed to be streamed.
+        :return:
+        """
         brand_list = "brand-search"
 
         if not search_params:
@@ -32,7 +38,7 @@ class Brands(object):
     def update(self, brand_info):
         brand_update = "brand"
         return self.connection.make_request(
-           "{}/{}/{}".format(self.resource_parent, brand_update, brand_info['id']), "PUT", data=brand_info
+            "{}/{}/{}".format(self.resource_parent, brand_update, brand_info['id']), "PUT", data=brand_info
         )
 
     def remove(self, brand_id):
@@ -40,4 +46,3 @@ class Brands(object):
         return self.connection.make_request(
             "{}/{}/{}".format(self.resource_parent, brand_delete, brand_id), "DELETE", {}
         )
-

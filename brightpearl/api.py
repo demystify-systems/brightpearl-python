@@ -5,9 +5,9 @@ import requests
 
 
 from brightpearl.connection import Connection, OauthConnection
-from brightpearl.resources import (
-    Products, Brands, ProductType, Category, Options, Collection, Season, OptionValue, CustomField
-)
+from brightpearl.resources import (  # noqa F401
+    Products, Brands, ProductType, Category, Options, Collection, Season, OptionValue, CustomField  # noqa F401
+)  # noqa F401
 
 
 log = logging.getLogger("brightpearl.api")
@@ -16,7 +16,7 @@ log = logging.getLogger("brightpearl.api")
 class BrightPearlAPI(object):
     def __init__(
             self, client_id=None, client_secret=None, oauth=False, account_id=None, domain=None, access_token=None,
-            developer_ref=None, app_ref=None, protocol= "https"
+            developer_ref=None, app_ref=None, protocol="https", rate_limit_management=None
     ):
         self.client_id = client_id
         self.client_secret = client_secret
@@ -29,7 +29,10 @@ class BrightPearlAPI(object):
         if oauth:
             self.connection = OauthConnection(self.client_id, self.client_secret, protocol=protocol)
         else:
-            self.connection = Connection(domain, account_id, access_token, developer_ref, app_ref, protocol=protocol)
+            self.connection = Connection(
+                domain, account_id, access_token, developer_ref, app_ref, protocol=protocol,
+                rate_limit_management=rate_limit_management
+            )
 
     def authorization_url(self, authorization_redirect_url):
         """

@@ -7,6 +7,11 @@ class Season(object):
         self.connection = connection
 
     def all(self, stream=False):
+        """
+            Method to get all the seasoons data from the brightpearl.
+        :param stream: (boolean) - True if results are supposed to be streamed.
+        :return:
+        """
         season_get = "season"
         return self.connection.make_request(
             "{}/{}/{}".format(self.resource_parent, season_get, ""), "GET", {}, stream

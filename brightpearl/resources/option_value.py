@@ -29,6 +29,12 @@ class OptionValue(object):
         )
 
     def create(self, option_id, option_values):
+        """
+            Method to create the option value on the brightpeal
+        :param option_id:
+        :param option_values:
+        :return:
+        """
         option_value_create = "option"
         return self.connection.make_request(
             "{}/{}/{}/values".format(self.resource_parent, option_value_create, option_id), "POST", data=option_values

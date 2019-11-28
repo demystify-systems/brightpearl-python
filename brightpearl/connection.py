@@ -75,7 +75,7 @@ class Connection(object):
         """
         if 'brightpearl-requests-remaining' in headers:
             # check if the min_requests_remaining are lesser than requests_remaining
-            if self.rate_limit_management['min_requests_remaining'] <= int(headers['brightpearl-requests-remaining']):
+            if self.rate_limit_management['min_requests_remaining'] >= int(headers['brightpearl-requests-remaining']):
                 if self.rate_limit_management['wait']:
                     sleep(int(headers['brightpearl-next-throttle-period']) / 1000)
                 if self.rate_limit_management.get('callback_function'):

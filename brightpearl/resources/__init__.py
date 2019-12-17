@@ -8,3 +8,4 @@ from brightpearl.resources.option_value import OptionValue  # noqa F401
 from brightpearl.resources.season import Season # noqa F401
 from brightpearl.resources.collection import Collection # noqa F401
 from brightpearl.resources.price_list import PriceList # noqa F401
+from brightpearl.resources.product_price import ProductPrice # noqa F401

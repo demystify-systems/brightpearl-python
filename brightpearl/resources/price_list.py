@@ -12,7 +12,7 @@ class PriceList(object):
         :return:
         """
         if not price_list_ids:
-            price_list_id = ""
+            price_list_ids = ""
         price_list_get = "price-list"
         return self.connection.make_request(
             "{}/{}/{}".format(self.resource_parent, price_list_get, price_list_ids), "GET", {}

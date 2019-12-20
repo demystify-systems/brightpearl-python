@@ -59,9 +59,14 @@ class Connection(object):
             **{"domain": self.domain, "account_id": self.account_id, "resource": endpoint}
         )
 
-    def make_request(self, url, method, data=None, stream=False):
+    def make_request(self, url, method, data=None, stream=False, headers=None):
         if not data:
             data = dict()
+
+        if headers:
+            for header_name, header_value in headers.items():
+                self._session.headers.update({header_name: header_value})
+
         response = self._session.request(
             method=method, url=self.get_full_path(url), data=json.dumps(data), stream=stream
         )

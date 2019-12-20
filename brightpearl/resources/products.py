@@ -35,10 +35,16 @@ class Products(object):
             "{}/{}".format(self.resource_parent, product_create), "POST", data=product_info
         )
 
-    def update(self, product_info):
+    def update(self, product_info, product_version=None):
         product_update = "product"
+        update_header = None
+        if product_version:
+            update_header = {
+                "if-match": product_version
+            }
         return self.connection.make_request(
-            "{}/{}/{}".format(self.resource_parent, product_update, product_info['id']), "PUT", data=product_info
+            "{}/{}/{}".format(self.resource_parent, product_update, product_info['id']), "PUT", data=product_info,
+            headers=update_header
         )
 
     def remove(self, product_id):

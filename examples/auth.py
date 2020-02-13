@@ -11,4 +11,4 @@ auth_url = api.authorization_url(authorization_redirect_url="http://localhost/re
 api.oauth_fetch_token(code="XYZ", access_redirect_url="http://localhost/access_redirect_url")
 
 # To refresh token
-api.refresh_token(refresh_token="zadleofndInJ1=")
+api.refresh_token(refresh_token="<referesh_token>")

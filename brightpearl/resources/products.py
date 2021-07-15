@@ -23,6 +23,18 @@ class Products(object):
             self.resource_parent, product_list, url_encode_params(search_params)), "GET", {}, stream
         )
 
+    
+    def fetch_all_urls(self):
+        """
+        Method to get all the Products from the Brightpearl.
+        https://api-docs.brightpearl.com/product/product/options.html
+        :return:
+        """
+        product_list = "product"
+
+
+        return self.connection.make_request("/product-service/product/", "OPTIONS", {})
+
     def get(self, product_id):
         product_get = "product"
         return self.connection.make_request(

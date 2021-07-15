@@ -24,3 +24,14 @@ class ProductPrice(object):
             "{}/{}/{}/price-list".format(self.resource_parent, product_price_update, product_id), "PUT", data=price_list
         )
 
+    
+    def fetch_all_price_urls(self, price_list_id_range):
+        """
+        Method to get all the Products from the Brightpearl.
+        https://api-docs.brightpearl.com/product/product/options.html
+        :return:
+        """
+        product_list = "product-price"
+
+        return self.connection.make_request(f"/product-service/product-price/*/price-list/{price_list_id_range}", "OPTIONS", {})
+

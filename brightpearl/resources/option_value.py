@@ -1,4 +1,4 @@
-
+from brightpearl.utils import url_encode_params
 
 class OptionValue(object):
 
@@ -6,15 +6,17 @@ class OptionValue(object):
         self.resource_parent = 'product-service'
         self.connection = connection
 
-    def all(self, stream=False):
+    def all(self, search_params= None, stream=False):
         """
             Method to get option_values from the brightpearl.
         :param stream: (boolean) - True if the data are to be streamed.
         :return:
         """
         option_value_list = "option-value-search"
-        return self.connection.make_request("/{}/{}".format(
-            self.resource_parent, option_value_list), "GET", {}, stream
+        if not search_params:
+            search_params = dict()
+        return self.connection.make_request("/{}/{}/{}".format(
+            self.resource_parent, option_value_list, url_encode_params(search_params)), "GET", {}, stream
         )
 
     def get(self, option_id):

@@ -15,7 +15,7 @@ class OptionValue(object):
         option_value_list = "option-value-search"
         if not search_params:
             search_params = dict()
-        return self.connection.make_request("/{}/{}/{}".format(
+        return self.connection.make_request("/{}/{}?{}".format(
             self.resource_parent, option_value_list, url_encode_params(search_params)), "GET", {}, stream
         )
 

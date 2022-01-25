@@ -39,5 +39,5 @@ class OptionValue(object):
         """
         option_value_create = "option"
         return self.connection.make_request(
-            "{}/{}/{}/values".format(self.resource_parent, option_value_create, option_id), "POST", data=option_values
+            "{}/{}/{}/value".format(self.resource_parent, option_value_create, option_id), "POST", data=option_values
         )

@@ -1,5 +1,4 @@
 from brightpearl.utils import url_encode_params
-
 class Season(object):
 
     def __init__(self, connection):

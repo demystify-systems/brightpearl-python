@@ -10,3 +10,4 @@ from brightpearl.resources.collection import Collection # noqa F401
 from brightpearl.resources.price_list import PriceList # noqa F401
 from brightpearl.resources.product_price import ProductPrice # noqa F401
 from brightpearl.resources.product_supplier import ProductSupplier # noqa F401
+from brightpearl.resources.product_supplier import ProductPrimarySupplier # noqa F401

@@ -27,4 +27,10 @@ class ProductSupplier(object):
             "{}/{}/{}/{}".format(self.resource_parent, "product", product_id, supplier_update), "POST", data=supplier_list
         )
 
+    def delete(self, product_id, supplier_list):
+        supplier_update = "supplier"
+        return self.connection.make_request(
+            "{}/{}/{}/{}".format(self.resource_parent, "product", product_id, supplier_update), "DELETE", data=supplier_list
+        )
+
 

@@ -7,7 +7,7 @@ import requests
 from brightpearl.connection import Connection, OauthConnection
 from brightpearl.resources import (  # noqa F401
     Products, Brands, ProductType, Category, Options, Collection, Season, OptionValue, CustomField,  # noqa F401
-    PriceList, ProductPrice, ProductSupplier , ProductPrimarySupplier # noqa F401
+    PriceList, ProductPrice, ProductSupplier , ProductPrimarySupplier, Warehouse, StockCorrection, Location, WarehouseDefaults # noqa F401
 )  # noqa F401
 
 
@@ -67,7 +67,7 @@ class BrightPearlAPI(object):
         data = response.json()
         return data
 
-    def refresh_token(self, refresh_token):
+    def refresh_token(self, refresh_token, rate_limit_management=None):
         if self.oauth:
             raise ValueError("Refresh token can't be triggered as connection initialized for oauth connection")
         request_body = dict({
@@ -81,10 +81,11 @@ class BrightPearlAPI(object):
             method="POST", url="https://oauth.brightpearl.com/token/{}".format(self.account),
             data=request_body)
         data = response.json()
+        print("data",data)
         if "access_token" not in data:
             raise ValueError("Expected 'access_token' in the response of refresh_token")
         self.access_token = data["access_token"]
-        self.connection = Connection(self.domain, self.account, self.access_token, self.developer_ref, self.app_ref)
+        self.connection = Connection(self.domain, self.account, self.access_token, self.developer_ref, self.app_ref, rate_limit_management= rate_limit_management)
         return data
 
     def __getattr__(self, item):

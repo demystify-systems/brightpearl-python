@@ -44,6 +44,7 @@ class Connection(object):
         self.rate_limit_management = rate_limit_management
         self._session.headers = {
             "Accept": "application/json",
+            "Content-Type":"application/json",
             "Authorization": "Bearer {}".format(access_token),
             "brightpearl-dev-ref": developer_ref,
             "brightpearl-app-ref": app_ref
@@ -68,7 +69,7 @@ class Connection(object):
                 self._session.headers.update({header_name: header_value})
 
         response = self._session.request(
-            method=method, url=self.get_full_path(url), data=json.dumps(data), stream=stream
+            method=method, url=self.get_full_path(url), json=data, stream=stream
         )
         return self.process_response(response, stream)
 
@@ -99,7 +100,8 @@ class Connection(object):
         :return:
         """
         result = dict()
-        if response.status_code in [200, 201, 202]:
+        # print(response.text)
+        if response.status_code in [200, 201, 202, 207]:
             self.rate_limiting(response.headers)
             if not stream:
                 result = response.json()

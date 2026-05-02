@@ -25,13 +25,17 @@ class ProductPrice(object):
         )
 
     
-    def fetch_all_price_urls(self, price_list_id_range):
+    def fetch_all_price_urls(self, price_list_id_range = None):
         """
         Method to get all the Products from the Brightpearl.
         https://api-docs.brightpearl.com/product/product/options.html
         :return:
         """
         product_list = "product-price"
+        url = "/product-service/product-price/"
 
-        return self.connection.make_request(f"/product-service/product-price/*/price-list/{price_list_id_range}", "OPTIONS", {})
+        if price_list_id_range is not None:
+            url = f"/product-service/product-price/*/price-list/{price_list_id_range}"
+            
+        return self.connection.make_request(url, "OPTIONS", {})
 

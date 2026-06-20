@@ -13,7 +13,8 @@ setup(
     name='brightpearl',
     version=VERSION,
 
-    packages=find_packages(),
+    packages=find_packages(exclude=("examples",)),
+    install_requires=["requests"],
 
     url='https://github.com/demystify-systems/brightpearl-python',
 
